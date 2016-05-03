@@ -11,8 +11,11 @@
 #include "driverlib/adc.h"
 
 
-static void init_rotation(void){
 
+
+
+static void init_rotation(void){
+	 //SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
     //enable pins
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
@@ -21,6 +24,7 @@ static void init_rotation(void){
     GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_0);
     GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_1);
    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
+
    // ADCSequenceDisable(ADC0_BASE, 1);
     ADCSequenceConfigure(ADC0_BASE, 1, ADC_TRIGGER_PROCESSOR, 0);
     ADCSequenceStepConfigure(ADC0_BASE, 1, 0, ADC_CTL_CH3 );
@@ -38,5 +42,5 @@ static void init_rotation(void){
        ADCIntClear(ADC0_BASE, 1);
        ADCProcessorTrigger(ADC0_BASE, 1);
 
-
+      // SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
 }

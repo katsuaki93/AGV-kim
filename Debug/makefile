@@ -10,6 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./header_uart_smirf_intr.obj" \
 "./main.obj" \
 "./tm4c123gh6pm_startup_ccs.obj" \
 "C:/ti/TivaWare_C_Series-2.1.2.111/driverlib/ccs/Debug/driverlib.lib" \
@@ -152,8 +153,8 @@ Merge\ av\ kod.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "main.pp" "tm4c123gh6pm_startup_ccs.pp" 
-	-$(RM) "main.obj" "tm4c123gh6pm_startup_ccs.obj" 
+	-$(RM) "header_uart_smirf_intr.pp" "main.pp" "tm4c123gh6pm_startup_ccs.pp" 
+	-$(RM) "header_uart_smirf_intr.obj" "main.obj" "tm4c123gh6pm_startup_ccs.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

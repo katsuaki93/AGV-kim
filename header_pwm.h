@@ -9,6 +9,11 @@
 
 #include "driverlib/pwm.h"
 
+
+int pwmPeriod = 15000;
+
+
+
  void init_pwm(unsigned int pwmPeriod){
 
 
@@ -71,3 +76,98 @@
 
 
 }
+
+
+
+
+
+ void motor_v(int dir, int speed) // insert speed between 0 and 9 along with the direction, 1 - forward, 0 - stop, -1 - backwards
+ {
+ 	unsigned int pwmNow = pwmPeriod/10 *speed;
+ 	if (speed == 0)
+ 		{
+ 		pwmNow=1;
+ 		}
+ 	if (dir== -1)
+ 	{
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_7,1);
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_3,pwmNow);
+ 	}
+ 	else if (dir==0)
+ 	{
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_7,pwmPeriod-5);
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_3,pwmPeriod-5);
+ 	}
+ 	else if (dir == 1)
+ 	{
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_7,pwmNow);
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_3,1);
+
+ 	}
+ 	  PWMGenEnable(PWM0_BASE, PWM_GEN_3);
+ 	  PWMGenEnable(PWM0_BASE, PWM_GEN_1);
+ 	  PWMGenEnable(PWM0_BASE, PWM_GEN_0);
+ }
+
+
+ void motor_h(int dir, int speed) // insert speed between 0 and 9 along with the direction
+ {
+ 	unsigned int pwmNow = pwmPeriod/10 *speed;
+ 	if (speed == 0)
+ 		{
+ 		pwmNow=1;
+ 		}
+ 	if (dir== -1)
+ 	{
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_2,pwmNow);
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_0,1);
+ 	}
+ 	else if (dir==0)
+ 	{
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_2,pwmPeriod-5);
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_0,pwmPeriod-5);
+ 	}
+ 	else if (dir == 1)
+ 	{
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_2,1);
+ 		PWMPulseWidthSet(PWM0_BASE, PWM_OUT_0,pwmNow);
+ 	}
+
+
+ 	PWMGenEnable(PWM0_BASE, PWM_GEN_1);
+
+ }
+
+
+ void move_backward(int speed) //sets the pwm:s for each side to forward
+ {
+ 	motor_h(1,speed);
+ 	motor_v(1,speed);
+
+ }
+ void move_forward(int speed) //sets the pwm:s for each side to forward
+ {
+ 	motor_h(-1,speed);
+ 	motor_v(-1,speed);
+
+ }
+ void move_stop() // Sets the pwm output to constantly one, i.e. the motors will stop.
+ {
+ 	motor_h(0,0);
+ 	motor_v(0,0);
+ }
+
+ void move_turn(int dir, int speed) // Fancy function for turning
+ {
+ 	if (dir==1)
+ 	{
+ 		motor_h(-1,speed);
+ 		motor_v(1,speed);
+ 	}
+ 	else if (dir==-1)
+ 	{
+ 		motor_h(1,speed);
+ 		motor_v(-1,speed);
+ 	}
+
+ }
